@@ -2,9 +2,9 @@
     "keyboard": {
       "main": {
         "button": {
-          "0": "Balances",
-          "1": "Send",
-          "2": "Exit"
+          "b": "Balances",
+          "s": "Send",
+          "e": "Exit"
         },
         "text": "ℹ️ Main menu"
       }

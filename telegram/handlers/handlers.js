@@ -1,20 +1,27 @@
 const db = require("../../db/db")
 const text = require("../keyboard/text")
-const Markup = require('telegraf/markup');
+const markup = require('telegraf/markup');
 const kb = require("../keyboard/keyboard")
 
-const WizardScene = require("telegraf/scenes/wizard");
-
 async function start(ctx) {
+
     const user = await db.user.find.oneByID(ctx.message.from.id);
+
     if (user)
-        return ctx.reply(text.keyboard.text, Markup
+        return ctx.reply(text.keyboard.main.text, markup
             .keyboard(kb.main)
             .resize()
-            .extra()
-        )
+            .extra())
+    else
+        ctx.scene.enter("createAcc")
+}
+
+async function balances(ctx){
+    const user = await db.user.find.oneByID(ctx.message.from.id);
+    console.log(user.ethereumAddress)
 }
 
 module.exports = {
-    start: start
-}
+    start: start,
+    balances:balances
+};
