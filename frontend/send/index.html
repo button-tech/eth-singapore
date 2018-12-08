@@ -30,12 +30,26 @@
             </div>
         </div>
     </div>
+    <div class="col-12">
+        <div class='loader' id="loader-second">
+            <div class='loader-container container'>
+                <div class="row">
+                    <div class="col-12 bg">
+                        <img src="../src/img/Blocks-1s-200px.gif">
+                        <h1 style="color: white; font-size: 40px !important; font-family: Roboto !important;"><span
+                                id="loader-text"></span></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="container">
     <div class="row">
         <div id="main" class="col-12 my-auto">
             <div class="col-12">
-                <p align="center" style="font-size: 20px;"><strong style="color: black">Security info:</strong> you have <span id="time"></span> minutes to make this operation</p>
+                <p align="center" style="font-size: 20px;"><strong style="color: black">Security info:</strong> you have
+                    <span id="time"></span> minutes to make this operation</p>
                 <table class="table table-hover table-dark">
                     <tbody>
                     <tr>
@@ -135,9 +149,30 @@
 <script src="../src/js/utils/bower_components/crypto-js/crypto-js.js"></script>
 <script src="../src/js/blockchain.js"></script>
 <!--<script src="../src/js/utils/erc20contract.js"></script>-->
-<script src="../src/js/send/index.js"></script>
+<!--<script src="../src/js/send/index.js"></script>-->
 
 <script src="../src/js/utils/popper.min.js"></script>
 <script src="../src/js/utils/bootstrap.min.js"></script>
+
+<script>
+    (() => {
+        show(1);
+        show(2);
+        show(3);
+
+    })()
+
+    function show(id) {
+        document.getElementById("loader-text").innerText = `Your transaction is on Step ${id}`
+    }
+
+    function display_loader() {
+        document.getElementById("loader").style.display = 'block';
+    }
+
+    function close_loader() {
+        document.getElementById("loader").style.display = 'none';
+    }
+</script>
 </body>
 </html>
