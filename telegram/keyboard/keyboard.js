@@ -26,7 +26,7 @@ const create_transaction = (guid) => Markup.inlineKeyboard([
 ]);
 
 const borrow = (guid) => Markup.inlineKeyboard([
-    Markup.urlButton(Text.inline_keyboard.borrow["0"].button, `${Text.inline_keyboard.lender["0"].callback}${guid}`),
+    Markup.urlButton(Text.inline_keyboard.borrow["0"].button, `${Text.inline_keyboard.borrow["0"].callback}${guid}`),
     // Markup.callbackButton('Back', 'delete')
 ]);
 
