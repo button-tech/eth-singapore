@@ -73,13 +73,11 @@ async ctx =>{
     const key = guid.create().value;
     const user = await db.user.find.oneByID(ctx.message.from.id);
     const value = JSON.stringify({
-        lifetime: (Date.now() + (keyLifeTime * 1000)).toString(),
+        lifetime: Date.now() + (keyLifeTime * 1000),
         bZxAddress: "0xf5db2944BDD37ABB80FA0dff8f018fC89b52142e",
         makerAddress: user["ethereumAddress"],
         loanTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
         interestTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
-        collateralTokenAddress: "0x00000000000000000000000000000000000000000",
-        feeRecipientAddress: "0x00000000000000000000000000000000000000000",
         oracleAddress: "0xda2751f2c2d48e2ecdfb6f48f01545a73c7e74b9",
         loanTokenAmount: Number(ctx.message.text) * 1e18,
         interestAmount: 0.2 * 1e18 ,
@@ -90,7 +88,7 @@ async ctx =>{
         maxDurationUnixTimestampSec: "2419200",
         expirationUnixTimestampSec: (9999999999999999999).toString(),
         makerRole: "0",
-        salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu",
+        salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu"
     });
 
     client.set(key, value, 'EX', keyLifeTime);
