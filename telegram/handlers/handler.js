@@ -20,26 +20,6 @@ const client = redis.createClient({
 
 const keyLifeTime = 600; // in seconds
 
-const borrowOrder = {
-    bZxAddress: "0xf5db2944BDD37ABB80FA0dff8f018fC89b52142e",
-    makerAddress: "", // Сюда вставишь эфирный адрес Lender
-    loanTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
-    interestTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
-    collateralTokenAddress: "0x00000000000000000000000000000000000000000",
-    feeRecipientAddress: "0x00000000000000000000000000000000000000000",
-    oracleAddress: "0xda2751f2c2d48e2ecdfb6f48f01545a73c7e74b9",
-    loanTokenAmount: "", // Тут в wei amount указываешь
-    interestAmount: 0.2 * 1e18 , // тут не трогаешь
-    initialMarginAmount: "50",
-    maintenanceMarginAmount: "25",
-    lenderRelayFee: c.web3.utils.toWei("0", "ether"),
-    traderRelayFee: c.web3.utils.toWei("0", "ether"),
-    maxDurationUnixTimestampSec: "2419200",
-    expirationUnixTimestampSec: (9999999999999999999).toString(),
-    makerRole: "0", // 0=borrower, 1=trader
-    salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu"
-  };
-
 async function start(ctx) {
     const user = await db.user.find.oneByID(ctx.message.from.id);
 
@@ -83,7 +63,7 @@ const bzx = new WizardScene(
         }
     }
 },
-ctx =>{
+async ctx =>{
     const key = guid.create().value;
     const order = borrowOrder
     const user = await db.user.find.oneByID(ctx.message.from.id);

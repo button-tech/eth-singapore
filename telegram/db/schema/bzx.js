@@ -6,7 +6,7 @@ const Orders = new Schema({
         auto: true 
     },
     orders: {
-        type: JSON,
+        type: Object,
     },
 }, {
     versionKey: false
