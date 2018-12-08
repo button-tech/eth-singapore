@@ -22,12 +22,6 @@ const User = new Schema({
     registrationDate: {
         type: Date,
         default: Date.now()
-    },
-    Trader: {
-        type:Array
-    },
-    Leaser:{
-        type:Array
     }
 }, {
     versionKey: false

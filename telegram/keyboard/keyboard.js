@@ -25,10 +25,16 @@ const create_transaction = (guid) => Markup.inlineKeyboard([
     // Markup.callbackButton('Back', 'delete')
 ]);
 
+const lender = () => Markup.inlineKeyboard([
+    Markup.urlButton(Text.inline_keyboard.lender["0"].button, `${Text.inline_keyboard.lender["0"].callback}`),
+    // Markup.callbackButton('Back', 'delete')
+]);
+
 module.exports = {
     start: start,
     create_wallet: create_wallet,
     create_transaction: create_transaction,
     account: account,
+    lender:lender
 };
 

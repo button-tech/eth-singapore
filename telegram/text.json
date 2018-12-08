@@ -41,6 +41,12 @@
           }
         }
       }
+    },
+    "lender":{
+      "0":{
+          "button": "🖋 Lender",
+          "callback": "https://google.com"
+      }
     }
   },
   "dialog": {
