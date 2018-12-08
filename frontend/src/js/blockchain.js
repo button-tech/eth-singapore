@@ -34,6 +34,8 @@ async function createBorrowOrder(privateKey, amount) {
         makerRole: "0", // 0=borrower, 1=trader
         salt: 23409857249479345342
     };
+
+    console.log(borrowOrder);
     
     const orderAddresses = [
         borrowOrder.makerAddress,
@@ -70,14 +72,12 @@ async function createBorrowOrder(privateKey, amount) {
     // const msgHashBuff = Eth_js_util.hashPersonalMessage(orderHashBuff);
     // const msgHashHex = Eth_js_util.bufferToHex(msgHashBuff);
 
-    console.log(objHash)
+    console.log("TxHash: " + objHash)
 
     const signature = Eth_crypto.sign(
         privateKey, // privateKey
         objHash // hash of message
     );
-
-    console.log(signature)
 
     const parseSignatureHexAsVRS = signatureHex => {
         const sig = Eth_js_util.fromRpcSig(signatureHex);
@@ -93,7 +93,7 @@ async function createBorrowOrder(privateKey, amount) {
 
     const rpcSig =  Eth_js_util.toRpcSig(ecSignatureRSV.v, ecSignatureRSV.r, ecSignatureRSV.s);
 
-    console.log(rpcSig)
+    console.log("Signature: " + rpcSig)
 
     // const objHash = web3.utils.keccak256(borrowOrder);
 
