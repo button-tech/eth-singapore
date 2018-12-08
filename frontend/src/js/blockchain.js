@@ -19,8 +19,8 @@ async function createBorrowOrder(privateKey, amount) {
         makerAddress: getAddress(privateKey),
         loanTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
         interestTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
-        collateralTokenAddress: "0x00000000000000000000000000000000000000000",
-        feeRecipientAddress: "0x00000000000000000000000000000000000000000",
+        collateralTokenAddress: "0x0000000000000000000000000000000000000000",
+        feeRecipientAddress: "0x0000000000000000000000000000000000000000",
         oracleAddress: "0xda2751f2c2d48e2ecdfb6f48f01545a73c7e74b9",
         loanTokenAmount: amount,
         interestAmount: (0.2*10**18).toFixed(0).toString(),
@@ -33,22 +33,50 @@ async function createBorrowOrder(privateKey, amount) {
         makerRole: "0", // 0=borrower, 1=trader
         salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu"
     };
+    
+    const orderAddresses = [
+        borrowOrder.makerAddress,
+        borrowOrder.loanTokenAddress,
+        borrowOrder.interestTokenAddress,
+        borrowOrder.collateralTokenAddress,
+        borrowOrder.feeRecipientAddress,
+        borrowOrder.oracleAddress
+    ];
 
-    const objHash = web3.utils.keccak256(borrowOrder);
+    const orderValues = [
+      borrowOrder.loanTokenAmount.toString(),
+      borrowOrder.interestAmount.toString(),
+      borrowOrder.initialMarginAmount.toString(),
+      borrowOrder.maintenanceMarginAmount.toString(),
+      borrowOrder.lenderRelayFee.toString(),
+      borrowOrder.traderRelayFee.toString(),
+      borrowOrder.maxDurationUnixTimestampSec.toString(),
+      borrowOrder.expirationUnixTimestampSec.toString(),
+      borrowOrder.makerRole.toString(),
+      borrowOrder.salt.toString()
+    ]
+
+    const objHash = W3_utils.soliditySha3(
+        { t: "address", v: borrowOrder.bZxAddress },
+        { t: "address[6]", v: orderAddresses },
+        { t: "uint256[10]", v: orderValues },
+        { t: "bytes", v: "0x" }
+      );
+
+    // const objHash = web3.utils.keccak256(borrowOrder);
+
+
+
     // const sigPrefix = '\x19Ethereum Signed Message:\n' + objHash.length.toString();
-    const signature = await web3.eth.sign(objHash, getAddress(privateKey));
-    const signedBorrowOrder = { ...borrowOrder, signature: signature};
+    // const signature = await web3.eth.sign(objHash, getAddress(privateKey));
+    // const signedBorrowOrder = { ...borrowOrder, signature: signature};
 
-    const orderAddresses = [signedBorrowOrder.makerAddress, signedBorrowOrder.loanTokenAddress, signedBorrowOrder.interestTokenAddress, signedBorrowOrder.collateralTokenAddress, signedBorrowOrder.feeRecipientAddress, signedBorrowOrder.oracleAddress];
+    // const oracleData = "0x";
 
-    const orderValues = [signedBorrowOrder.loanTokenAmount, signedBorrowOrder.interestAmount, signedBorrowOrder.initialMarginAmount, signedBorrowOrder.maintenanceMarginAmount, signedBorrowOrder.lenderRelayFee, signedBorrowOrder.traderRelayFee, signedBorrowOrder.maxDurationUnixTimestampSec, signedBorrowOrder.expirationUnixTimestampSec, signedBorrowOrder.makerRole, signedBorrowOrder.salt];
-
-    const oracleData = "0x";
-
-    const instance = getInstance(bzxABI, BZXAddress);
-    const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, signedBorrowOrder.signature]);
-    const response = await set(privateKey, BZXAddress, 0, data);
-    return response.transactionHash;
+    // const instance = getInstance(bzxABI, BZXAddress);
+    // const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, signedBorrowOrder.signature]);
+    // const response = await set(privateKey, BZXAddress, 0, data);
+    // return response.transactionHash;
 }
 
 async function sendToken(tokenAddress, privateKey, receiver, amount) {
