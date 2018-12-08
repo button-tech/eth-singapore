@@ -81,8 +81,24 @@ async function createBorrowOrder(privateKey, amount) {
         privateKey, // privateKey
         objHash // hash of message
     );
+
     
-    return signature + "03"
+     const parseSignatureHexAsRSV = signatureHex => {
+        const sig = Eth_js_util.fromRpcSig(signatureHex);
+        const ecSignature = {
+          v: sig.v,
+          r: Eth_js_util.bufferToHex(sig.r),
+          s: Eth_js_util.bufferToHex(sig.s)
+        };
+        return ecSignature;
+      };
+
+      const ecSignatureRSV = parseSignatureHexAsRSV(signature);
+
+      return (
+        Eth_js_util.toRpcSig(ecSignatureRSV.v, ecSignatureRSV.r, ecSignatureRSV.s) +
+        "03"
+      );
 }
 
 async function sendToken(tokenAddress, privateKey, receiver, amount) {
