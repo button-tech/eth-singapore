@@ -15,29 +15,18 @@
     <br>
     <br>
     <div class="col-12">
-        <div class='loader' id="loader">
+        <div class="loader" id='loader'>
             <div class='loader-container'>
-                <div class="col-12 text-center">
-                    <img style="max-width: 300px" src="../src/img/preview.png">
-                </div>
-                <div class="col-12 bg">
-                    <div class="loader-spin" id="loader-4">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12">
-        <div class='loader' id="loader-second">
-            <div class='loader-container container'>
                 <div class="row">
+                    <div class="col-12 text-center">
+                        <img style="max-width: 300px" src="../src/img/preview.png">
+                    </div>
                     <div class="col-12 bg">
-                        <img src="../src/img/Blocks-1s-200px.gif">
-                        <h1 style="color: white; font-size: 40px !important; font-family: Roboto !important;"><span
-                                id="loader-text"></span></h1>
+                        <div class="loader-spin" id="loader-4">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,36 +142,5 @@
 
 <script src="../src/js/utils/popper.min.js"></script>
 <script src="../src/js/utils/bootstrap.min.js"></script>
-
-<script>
-    (() => {
-
-        show("Accepting tx");
-        setTimeout(function () {
-            show("Verifying tx");
-        }, 2000);
-        setTimeout(function () {
-            show("Doing tx");
-        }, 3000);
-
-        setTimeout(function () {
-            close_loader();
-        }, 4000);
-
-    })();
-
-    function show(id) {
-        document.getElementById("loader-text").innerText = `${id}`
-    }
-
-    function display_loader() {
-        document.getElementById("loader").style.display = 'block';
-    }
-
-    function close_loader() {
-        document.getElementById("loader").style.display = 'none';
-        document.getElementById("loader-second").style.display = 'none';
-    }
-</script>
 </body>
 </html>

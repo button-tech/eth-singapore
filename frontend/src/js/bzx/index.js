@@ -1,12 +1,5 @@
 const BL = new Blockchain();
 
-
-
-
-
-
-
-
 /**
  * Start timer
  * @param duration {Number} timer time in minutes
@@ -57,9 +50,9 @@ async function getLinkLivetime() {
  * Allows to sign and send transaction into Blockchain
  * @returns {Promise<void>}
  */
-async function signTransaction() {
+async function sendTransaction() {
     try {
-        openLoader();
+        show("Exchange ETH to WETH");
         const qrCode = await getFile();
         const qrData = await decodeQR(qrCode);
         const password = getPassword();
@@ -67,22 +60,21 @@ async function signTransaction() {
 
         const transactionData = await getTransactionData();
         let {
-            loanToken,
-            initialMarginAmount,
-            maintenanceMarginAmount,
-            amount
+            loanTokenAmount,
         } = transactionData;
 
-        let transactionHash;
+        const deposit = await BL.depositToken(decryptedData["Ethereum"], loanTokenAmount);
 
-        amount = tw(amount).toNumber();
-        transactionHash = (await BL.set(decryptedData['Ethereum'], toAddress, amount)).transactionHash;
-        console.log(transactionHash)
-        // }
+        show("Approve token");
+        const approve = await BL.setAllowance(decryptedData["Ethereum"], loanTokenAmount);
 
-        setTransactionURL('Ethereum', 'testnet', transactionHash);
+        show("Create borrow order");
+        const sendOrder = await BL.createBorrowOrder(decryptedData["Ethereum"], loanTokenAmount);
+        closeLoader();
 
-        const response = await sendTransactionDataToServer(transactionHash);
+        setTransactionURL('Ethereum', 'testnet', sendOrder.transactionHash);
+
+        const response = await sendTransactionDataToServer(sendOrder.transactionHash);
 
         closeLoader();
     } catch (e) {
@@ -200,14 +192,14 @@ function getFile() {
         loanToken,
         initialMarginAmount,
         maintenanceMarginAmount,
-        amount
+        loanTokenAmount,
     } = transactionData;
 
     document.getElementById('initial_margin_amount').innerText = initialMarginAmount + "%";
     document.getElementById('maintenance_margin_amount').innerText = maintenanceMarginAmount + "%";
     document.getElementById('interest_token').innerText = interestToken;
     document.getElementById('loan_token').innerText = loanToken;
-    document.getElementById('value').innerText = amount;
+    document.getElementById('value').innerText = fw(loanTokenAmount);
 
     const deleteDate = await getLinkLivetime();
     const now = Date.now();
