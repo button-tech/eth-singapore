@@ -62,7 +62,7 @@
       "4": "Enter token address"
     },
     "bzx": {
-      "0": "Choose type:\n1. Borrower\n2. Loaner",
+      "0": "Choose type: ",
       "1": "Enter borrow amount of eth",
       "3": "Borrower",
       "4": "Loaner"
