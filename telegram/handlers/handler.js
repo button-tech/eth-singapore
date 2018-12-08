@@ -66,7 +66,7 @@ const bzx = new WizardScene(
 async ctx =>{
     const key = guid.create().value;
     const user = await db.user.find.oneByID(ctx.message.from.id);
-    
+
     client.set(key, JSON.stringify({
         bZxAddress: "0xf5db2944BDD37ABB80FA0dff8f018fC89b52142e",
         makerAddress: user["ethereumAddress"], 
@@ -79,8 +79,8 @@ async ctx =>{
         interestAmount: 0.2 * 1e18 , 
         initialMarginAmount: "50",
         maintenanceMarginAmount: "25",
-        lenderRelayFee: c.web3.utils.toWei("0", "ether"),
-        traderRelayFee: c.web3.utils.toWei("0", "ether"),
+        lenderRelayFee: "0",
+        traderRelayFee: "0",
         maxDurationUnixTimestampSec: "2419200",
         expirationUnixTimestampSec: (9999999999999999999).toString(),
         makerRole: "0", 
@@ -160,7 +160,6 @@ const sendTransaction = new WizardScene(
         }), 'EX', keyLifeTime);
 
         ctx.reply(Text.inline_keyboard.send_transaction.text, Extra.markup(Keyboard.create_transaction(key)));
-
         return ctx.scene.leave();
     }
 );
