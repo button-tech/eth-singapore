@@ -42,16 +42,16 @@
         }
       }
     },
-    "lender":{
+    "borrow":{
       "0":{
-          "button": "🖋 Lender",
+          "button": "🖋 Order",
           "callback": "http://3.80.224.192:80/order/create/?guid="
       }
     },
     "order":{
       "0":{
         "button":"🖋 Order",
-        "callback":"http://3.80.224.192/create/accept/?guid="
+        "callback":"http://3.80.224.192/order/accept/?guid="
       }
     }
   },
@@ -62,10 +62,10 @@
       "4": "Enter token address"
     },
     "bzx": {
-      "0": "Choose type:\n1. Lender\n2. Trader",
+      "0": "Choose type:\n1. Borrower\n2. Loaner",
       "1": "Enter borrow amount of eth",
-      "3": "Lender",
-      "4": "Trader"
+      "3": "Borrower",
+      "4": "Loaner"
   }
 },
   "borrowObject":{

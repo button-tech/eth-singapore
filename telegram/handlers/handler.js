@@ -93,7 +93,7 @@ async ctx =>{
         salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu"
     }), 'EX', keyLifeTime);
 
-    ctx.reply("LENDER!", Extra.markup(Keyboard.create_wallet(key)));
+    ctx.reply("Borrow", Extra.markup(Keyboard.borrow(key)));
     return ctx.scene.leave();
     }
 );
