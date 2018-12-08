@@ -252,7 +252,7 @@ function getShortlink() {
         }
     });
 
-    return urlData.tx;
+    return urlData.guid;
 }
 
 /**
