@@ -74,6 +74,7 @@ async ctx =>{
     const user = await db.user.find.oneByID(ctx.message.from.id);
 
     client.set(key, JSON.stringify({
+        lifetime: Date.now() + (keyLifeTime * 1000),
         bZxAddress: "0xf5db2944BDD37ABB80FA0dff8f018fC89b52142e",
         makerAddress: user["ethereumAddress"], 
         loanTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
@@ -91,7 +92,6 @@ async ctx =>{
         expirationUnixTimestampSec: (9999999999999999999).toString(),
         makerRole: "0", 
         salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu",
-        lifetime: Date.now() + (keyLifeTime * 1000),
     }), 'EX', keyLifeTime);
 
     ctx.reply("Borrow", Extra.markup(Keyboard.borrow(key)));
