@@ -5,7 +5,7 @@ docker pull neojt/mredis
 docker run -d -p 6379:6379 neojt/mredis
 
 cd telegram
-docker build -t bot .
+docker build -t --name bot .
 docker run -d -p 8545:8545 bot
 
 cd ../api
