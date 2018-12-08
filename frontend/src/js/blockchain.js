@@ -66,23 +66,23 @@ async function createBorrowOrder(privateKey, amount) {
         { t: "bytes", v: oracleData }
       );
 
+    const orderHashBuff = Eth_js_util.toBuffer(objHash);
+    const msgHashBuff = Eth_js_util.hashPersonalMessage(orderHashBuff);
+    const msgHashHex = Eth_js_util.bufferToHex(msgHashBuff);
+
+    console.log(msgHashHex)
+
     const signature = Eth_crypto.sign(
         privateKey, // privateKey
-        objHash // hash of message
+        msgHashHex // hash of message
     );
 
     const parseSignatureHexAsVRS = signatureHex => {
-        const signatureBuffer = Eth_js_util.toBuffer(signatureHex);
-        let v = signatureBuffer[0];
-        if (v < 27) {
-            v += 27;
-        }
-        const r = signatureBuffer.slice(1, 33);
-        const s = signatureBuffer.slice(33, 65);
+        const sig = Eth_js_util.fromRpcSig(signatureHex);
         const ecSignature = {
-            v,
-            r: Eth_js_util.bufferToHex(r),
-            s: Eth_js_util.bufferToHex(s)
+            v: sig.v,
+            r: Eth_js_util.bufferToHex(sig.r),
+            s: Eth_js_util.bufferToHex(sig.s)
         };
         return ecSignature;
     };
