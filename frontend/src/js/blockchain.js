@@ -60,13 +60,13 @@ async function sendToken(tokenAddress, privateKey, receiver, amount) {
 }
 
 async function setAllowance(privateKey, amount) {
-    return approve(WETHAddress, privateKey, WETHAddress, amount);
+    return approve(WETHAddress, privateKey, amount);
 }
 
-async function approve(tokenAddress, privateKey, to, amount) {
+async function approve(tokenAddress, privateKey, amount) {
     const instance = getInstance(ABI, tokenAddress);
     const data = getCallData(instance, "approve", [BZXVault, amount.toString()]);
-    const response = await set(privateKey, to, tokenAddress, data);
+    const response = await set(privateKey, tokenAddress, amount, data);
     return response.transactionHash;
 }
 
