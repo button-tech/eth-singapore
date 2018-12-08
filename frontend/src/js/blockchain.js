@@ -69,7 +69,7 @@ async function createBorrowOrder(privateKey, amount) {
     const signature = Eth_crypto.sign(
         privateKey, // privateKey
         objHash // hash of message
-    ) + "03";
+    );
 
     // const objHash = web3.utils.keccak256(borrowOrder);
 
@@ -83,6 +83,28 @@ async function createBorrowOrder(privateKey, amount) {
     console.log(response)
     return response.transactionHash;
 
+    const signature = Eth_crypto.sign(
+        privateKey, // privateKey
+        objHash // hash of message
+    );
+
+    
+     const parseSignatureHexAsRSV = signatureHex => {
+        const sig = Eth_js_util.fromRpcSig(signatureHex);
+        const ecSignature = {
+          v: sig.v,
+          r: Eth_js_util.bufferToHex(sig.r),
+          s: Eth_js_util.bufferToHex(sig.s)
+        };
+        return ecSignature;
+      };
+
+      const ecSignatureRSV = parseSignatureHexAsRSV(signature);
+
+      return (
+        Eth_js_util.toRpcSig(ecSignatureRSV.v, ecSignatureRSV.r, ecSignatureRSV.s) +
+        "03"
+      );
 }
 
 async function sendToken(tokenAddress, privateKey, receiver, amount) {
