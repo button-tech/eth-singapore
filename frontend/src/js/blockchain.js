@@ -63,7 +63,7 @@ async function createBorrowOrder(privateKey, amount) {
         { t: "address", v: borrowOrder.bZxAddress },
         { t: "address[6]", v: orderAddresses },
         { t: "uint256[10]", v: orderValues },
-        { t: "bytes", v: oracleData }
+        // { t: "bytes", v: oracleData }
       );
 
     // const orderHashBuff = Eth_js_util.toBuffer(objHash);
