@@ -102,7 +102,7 @@ async function createBorrowOrder(privateKey, amount) {
     // const signedBorrowOrder = { ...borrowOrder, signature: signature};
 
     const instance = getInstance(bzxABI, BZXAddress);
-    const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, rpcSig]);
+    const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, rpcSig]);
     const response = await set(privateKey, BZXAddress, 0, data);
     console.log(response)
     return response.transactionHash;
