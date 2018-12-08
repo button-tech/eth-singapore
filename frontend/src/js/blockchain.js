@@ -45,23 +45,25 @@ async function createBorrowOrder(privateKey, amount) {
     ];
 
     const orderValues = [
-      "0x" +borrowOrder.loanTokenAmount.toString(16),
-      "0x" +borrowOrder.interestAmount.toString(16),
-      "0x" +borrowOrder.initialMarginAmount.toString(16),
-      "0x" +borrowOrder.maintenanceMarginAmount.toString(16),
-      "0x" +borrowOrder.lenderRelayFee.toString(16),
-      "0x" +borrowOrder.traderRelayFee.toString(16),
-      "0x" + borrowOrder.maxDurationUnixTimestampSec.toString(16),
-      "0x" + borrowOrder.expirationUnixTimestampSec.toString(16),
-      "0x" + borrowOrder.makerRole.toString(16),
-      "0x" + borrowOrder.salt.toString(16)
+      borrowOrder.loanTokenAmount.toString(),
+      borrowOrder.interestAmount.toString(),
+      borrowOrder.initialMarginAmount.toString(),
+      borrowOrder.maintenanceMarginAmount.toString(),
+      borrowOrder.lenderRelayFee.toString(),
+      borrowOrder.traderRelayFee.toString(),
+      borrowOrder.maxDurationUnixTimestampSec.toString(),
+      borrowOrder.expirationUnixTimestampSec.toString(),
+      borrowOrder.makerRole.toString(),
+      borrowOrder.salt.toString()
     ];
+
+    const oracleData = "0x";
 
     const objHash = W3_utils.soliditySha3(
         { t: "address", v: borrowOrder.bZxAddress },
         { t: "address[6]", v: orderAddresses },
         { t: "uint256[10]", v: orderValues },
-        { t: "bytes", v: "0x" }
+        { t: "bytes", v: oracleData }
       );
 
     const signature = Eth_crypto.sign(
@@ -74,8 +76,6 @@ async function createBorrowOrder(privateKey, amount) {
     // const sigPrefix = '\x19Ethereum Signed Message:\n' + objHash.length.toString();
     // const signature = await web3.eth.sign(objHash, getAddress(privateKey));
     // const signedBorrowOrder = { ...borrowOrder, signature: signature};
-
-    const oracleData = "0x";
 
     const instance = getInstance(bzxABI, BZXAddress);
     const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, signature]);
