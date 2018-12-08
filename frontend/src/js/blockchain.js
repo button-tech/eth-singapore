@@ -20,8 +20,8 @@ async function createBorrowOrder(privateKey, amount) {
         makerAddress: getAddress(privateKey),
         loanTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
         interestTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
-        collateralTokenAddress: "0x00000000000000000000000000000000000000000",
-        feeRecipientAddress: "0x00000000000000000000000000000000000000000",
+        collateralTokenAddress: "0x0000000000000000000000000000000000000000",
+        feeRecipientAddress: "0x0000000000000000000000000000000000000000",
         oracleAddress: "0xda2751f2c2d48e2ecdfb6f48f01545a73c7e74b9",
         loanTokenAmount: amount,
         interestAmount: (0.2*10**18).toFixed(0).toString(),
@@ -80,13 +80,13 @@ async function depositToken(privateKey, amount) {
 async function set(privateKey, receiver, amount, transactionData, gas = 210000) {
     const userAddress = getAddress(privateKey);
     const txParam = {
-        nonce: Number(await web3.eth.getTransactionCount(userAddress)),
+        nonce: toHex(await web3.eth.getTransactionCount(userAddress)),
         to: receiver,
-        value: amount,
+        value: toHex(amount.toString()),
         from: userAddress,
         data: transactionData !== undefined ? transactionData : '',
-        gasPrice: 0x3b9bca00,
-        gas: gas
+        gasPrice: "0x3b9bca00",
+        gas: toHex(gas.toString())
     };
     console.log(txParam)
     const privateKeyBuffer = ethereumjs.Buffer.Buffer.from(privateKey.substring(2), 'hex');
@@ -120,6 +120,14 @@ function getPrivateKey() {
     return "0x" + dk.privateKey.reduce((memo, i) => {
         return memo + ('0' + i.toString(16)).slice(-2);
     }, '');
+}
+
+function toHex(str) {
+    var hex = ''
+    for(var i=0;i<str.length;i++) {
+        hex += ''+str.charCodeAt(i).toString(16)
+    }
+    return hex
 }
 
 class Blockchain {
