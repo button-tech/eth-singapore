@@ -24,15 +24,15 @@ async function createBorrowOrder(privateKey, amount) {
         feeRecipientAddress: "0x0000000000000000000000000000000000000000",
         oracleAddress: "0xda2751f2c2d48e2ecdfb6f48f01545a73c7e74b9",
         loanTokenAmount: amount,
-        interestAmount: (0.2*10**18).toFixed(0).toString(),
+        interestAmount: Number((0.2*10**18).toFixed(0)),
         initialMarginAmount: "50",
         maintenanceMarginAmount: "25",
         lenderRelayFee: "0",
         traderRelayFee: "0",
         maxDurationUnixTimestampSec: "2419200",
-        expirationUnixTimestampSec: (9999999999999999999).toString(),
+        expirationUnixTimestampSec: 9999999999999999999,
         makerRole: "0", // 0=borrower, 1=trader
-        salt: "0x" + (23409857249479345342).toString(16)
+        salt: 23409857249479345342
     };
     
     const orderAddresses = [
@@ -45,16 +45,16 @@ async function createBorrowOrder(privateKey, amount) {
     ];
 
     const orderValues = [
-      borrowOrder.loanTokenAmount.toString(),
-      borrowOrder.interestAmount.toString(),
-      borrowOrder.initialMarginAmount.toString(),
-      borrowOrder.maintenanceMarginAmount.toString(),
-      borrowOrder.lenderRelayFee.toString(),
-      borrowOrder.traderRelayFee.toString(),
-      borrowOrder.maxDurationUnixTimestampSec.toString(),
-      borrowOrder.expirationUnixTimestampSec.toString(),
-      borrowOrder.makerRole.toString(),
-      borrowOrder.salt.toString()
+      "0x" +borrowOrder.loanTokenAmount.toString(16),
+      "0x" +borrowOrder.interestAmount.toString(16),
+      "0x" +borrowOrder.initialMarginAmount.toString(16),
+      "0x" +borrowOrder.maintenanceMarginAmount.toString(16),
+      "0x" +borrowOrder.lenderRelayFee.toString(16),
+      "0x" +borrowOrder.traderRelayFee.toString(16),
+      "0x" + borrowOrder.maxDurationUnixTimestampSec.toString(16),
+      "0x" + borrowOrder.expirationUnixTimestampSec.toString(16),
+      "0x" + borrowOrder.makerRole.toString(16),
+      "0x" + borrowOrder.salt.toString(16)
     ];
 
     const objHash = W3_utils.soliditySha3(
