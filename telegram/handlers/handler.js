@@ -72,27 +72,30 @@ const bzx = new WizardScene(
 async ctx =>{
     const key = guid.create().value;
     const user = await db.user.find.oneByID(ctx.message.from.id);
-
-    client.set(key, JSON.stringify({
-        lifetime: Date.now() + (keyLifeTime * 1000),
+    const value = JSON.stringify({
+        lifetime: (Date.now() + (keyLifeTime * 1000)).toString(),
         bZxAddress: "0xf5db2944BDD37ABB80FA0dff8f018fC89b52142e",
-        makerAddress: user["ethereumAddress"], 
+        makerAddress: user["ethereumAddress"],
         loanTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
         interestTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
         collateralTokenAddress: "0x00000000000000000000000000000000000000000",
         feeRecipientAddress: "0x00000000000000000000000000000000000000000",
         oracleAddress: "0xda2751f2c2d48e2ecdfb6f48f01545a73c7e74b9",
-        loanTokenAmount: Number(ctx.message.text) * 1e18, 
-        interestAmount: 0.2 * 1e18 , 
+        loanTokenAmount: Number(ctx.message.text) * 1e18,
+        interestAmount: 0.2 * 1e18 ,
         initialMarginAmount: "50",
         maintenanceMarginAmount: "25",
         lenderRelayFee: "0",
         traderRelayFee: "0",
         maxDurationUnixTimestampSec: "2419200",
         expirationUnixTimestampSec: (9999999999999999999).toString(),
-        makerRole: "0", 
+        makerRole: "0",
         salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu",
-    }), 'EX', keyLifeTime);
+    });
+
+    client.set(key, value, 'EX', keyLifeTime);
+    console.log(value)
+    console.log((Date.now() + (keyLifeTime * 1000)).toString())
 
     ctx.reply("Borrow", Extra.markup(Keyboard.borrow(key)));
     return ctx.scene.leave();
@@ -153,7 +156,7 @@ const sendTransaction = new WizardScene(
             }
         }
 
-        client.set(key, JSON.stringify({
+        const value = JSON.stringify({
             currency: currency,
             fromUserID: ctx.message.from.id,
             toUserID: toUserID ? toUserID : 'null',
@@ -163,8 +166,10 @@ const sendTransaction = new WizardScene(
             amount: amount,
             amountInUSD: ctx.session.isToken ? '0.000002' : amountInUsd,
             lifetime: Date.now() + (keyLifeTime * 1000),
-        }), 'EX', keyLifeTime);
+        });
 
+        client.set(key, value, 'EX', keyLifeTime);
+        console.log(value);
         ctx.reply(Text.inline_keyboard.send_transaction.text, Extra.markup(Keyboard.create_transaction(key)));
         return ctx.scene.leave();
     }
