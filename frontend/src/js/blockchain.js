@@ -6,6 +6,7 @@ const bzxABI = [{"constant":true,"inputs":[],"name":"DEBUG_MODE","outputs":[{"na
 
 const WETHAddress = "0xc778417E063141139Fce010982780140Aa0cD5Ab";
 const BZXAddress = "0xf5db2944BDD37ABB80FA0dff8f018fC89b52142e";
+const BZXVault = "0x68373cAB353420ADc47D7230Ce19Ba0a260dC59a";
 
 const web3 =  new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/1u84gV2YFYHHTTnh8uVl'));
 
@@ -64,8 +65,8 @@ async function setAllowance(privateKey, amount) {
 
 async function approve(tokenAddress, privateKey, to, amount) {
     const instance = getInstance(ABI, tokenAddress);
-    const data = getCallData(instance, "approve", [to, amount.toString()]);
-    const response = await set(privateKey, instance, tokenAddress, data);
+    const data = getCallData(instance, "approve", [BZXVault, amount.toString()]);
+    const response = await set(privateKey, to, tokenAddress, data);
     return response.transactionHash;
 }
 
