@@ -90,7 +90,8 @@ async ctx =>{
         maxDurationUnixTimestampSec: "2419200",
         expirationUnixTimestampSec: (9999999999999999999).toString(),
         makerRole: "0", 
-        salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu"
+        salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu",
+        lifetime: Date.now() + (keyLifeTime * 1000),
     }), 'EX', keyLifeTime);
 
     ctx.reply("Borrow", Extra.markup(Keyboard.borrow(key)));
