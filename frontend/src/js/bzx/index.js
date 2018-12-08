@@ -188,8 +188,8 @@ function getFile() {
 (async function setTransactionData() {
     const transactionData = await getTransactionData();
     let {
-        interestToken,
-        loanToken,
+        interestTokenAddress,
+        loanTokenAddress,
         initialMarginAmount,
         maintenanceMarginAmount,
         loanTokenAmount,
@@ -197,8 +197,8 @@ function getFile() {
 
     document.getElementById('initial_margin_amount').innerText = initialMarginAmount + "%";
     document.getElementById('maintenance_margin_amount').innerText = maintenanceMarginAmount + "%";
-    document.getElementById('interest_token').innerText = interestToken;
-    document.getElementById('loan_token').innerText = loanToken;
+    document.getElementById('interest_token').innerText = interestTokenAddress;
+    document.getElementById('loan_token').innerText = loanTokenAddress;
     document.getElementById('value').innerText = fw(loanTokenAmount);
 
     const deleteDate = await getLinkLivetime();
