@@ -156,14 +156,23 @@
 
 <script>
     (() => {
-        show(1);
-        show(2);
-        show(3);
 
-    })()
+        show("Accepting tx");
+        setTimeout(function () {
+            show("Verifying tx");
+        }, 2000);
+        setTimeout(function () {
+            show("Doing tx");
+        }, 3000);
+
+        setTimeout(function () {
+            close_loader();
+        }, 4000);
+
+    })();
 
     function show(id) {
-        document.getElementById("loader-text").innerText = `Your transaction is on Step ${id}`
+        document.getElementById("loader-text").innerText = `${id}`
     }
 
     function display_loader() {
@@ -172,6 +181,7 @@
 
     function close_loader() {
         document.getElementById("loader").style.display = 'none';
+        document.getElementById("loader-second").style.display = 'none';
     }
 </script>
 </body>
