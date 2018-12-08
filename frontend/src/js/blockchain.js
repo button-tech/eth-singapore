@@ -30,7 +30,7 @@ async function createBorrowOrder(privateKey, amount) {
         lenderRelayFee: "0",
         traderRelayFee: "0",
         maxDurationUnixTimestampSec: "2419200",
-        expirationUnixTimestampSec: Number(await web3.eth.getBlock("latest").timestamp) + 2019200,
+        expirationUnixTimestampSec: (await web3.eth.getBlock("latest")).timestamp + 2019200,
         makerRole: "0", // 0=borrower, 1=trader
         salt: 23409857249479345342
     };
