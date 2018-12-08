@@ -60,7 +60,7 @@ const bzx = new WizardScene(
         case "2":{
             ctx.session.orderType = Text.dialog.bzx["4"];
             let trader = await db.user.trader.update(ctx.message.from.id, Text.borrowObject);
-            ctx.reply("FCKING LINK:", Extra.markup(Keyboard.lender()))
+            ctx.reply(Text.borrowObject)
             return ctx.scene.leave();
         }
     }
@@ -69,6 +69,7 @@ ctx =>{
     ctx.session.amount = ctx.message.text
     ctx.reply("Amount: " + ctx.message.text);
     ctx.reply("Type: " + ctx.session.orderType);
+    ctx.reply("FCKING LINK:", Extra.markup(Keyboard.lender()))
     return ctx.scene.leave();
     }
 );
