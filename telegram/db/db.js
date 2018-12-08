@@ -38,37 +38,38 @@ const user = {
                 });
             })
         }
-    },lender:{
-        update:(userID, data)=>{
-            const user = this.user.find.oneByID(userID);
-            const arr = user.lender;
-            arr.put(data);
-            return new Promise((resolve, reject)=>{
-                User.update({userID: userID}, {leaser: arr}, (err, doc) => {
-                    if (err)
-                        reject(err);
-                    resolve(doc);
-                });
-            });
-        }
-      },
-      trader: {
-          update: async (userID, data) => {
-              User.find({userID: userID}, (err, user) => {
-                  if (err)
-                      throw err;
-                  let arr = user[0].trader;
-                  arr += data;
-                  return new Promise((resolve, reject) => {
-                      User.update({userID: userID}, {trader: arr}, (err, doc) => {
-                          if (err)
-                              reject(err);
-                          resolve(doc);
-                      });
-                  });
-              });
-          }
     },
+    // lender:{
+    //     update:(userID, data)=>{
+    //         const user = this.user.find.oneByID(userID);
+    //         const arr = user.lender;
+    //         arr.put(data);
+    //         return new Promise((resolve, reject)=>{
+    //             User.update({userID: userID}, {leaser: arr}, (err, doc) => {
+    //                 if (err)
+    //                     reject(err);
+    //                 resolve(doc);
+    //             });
+    //         });
+    //     }
+    //   },
+    //   trader: {
+    //       update: async (userID, data) => {
+    //           User.find({userID: userID}, (err, user) => {
+    //               if (err)
+    //                   throw err;
+    //               let arr = user[0].trader;
+    //               arr += data;
+    //               return new Promise((resolve, reject) => {
+    //                   User.update({userID: userID}, {trader: arr}, (err, doc) => {
+    //                       if (err)
+    //                           reject(err);
+    //                       resolve(doc);
+    //                   });
+    //               });
+    //           });
+    //       }
+    // },
     update: {
         addresses: (userID, ethereumAddress, bitcoinAddress) => {
             return new Promise((resolve, reject) => {
