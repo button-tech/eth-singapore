@@ -4,9 +4,7 @@ const BL = new Blockchain();
 
 
 
-async function createBorrowOrder() {
 
-}
 
 
 /**
