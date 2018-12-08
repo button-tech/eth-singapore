@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Orders = new Schema({
+const Order = new Schema({
     _id: { 
         type: Schema.ObjectId,
         auto: true 
@@ -12,4 +12,4 @@ const Orders = new Schema({
     versionKey: false
 });
 
-module.exports = mongoose.model('Orders', Orders);
+module.exports = mongoose.model('Order', Order);
