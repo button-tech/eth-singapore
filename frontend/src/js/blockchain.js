@@ -77,6 +77,8 @@ async function createBorrowOrder(privateKey, amount) {
         msgHashHex // hash of message
     );
 
+    console.log(signature)
+
     const parseSignatureHexAsVRS = signatureHex => {
         const sig = Eth_js_util.fromRpcSig(signatureHex);
         const ecSignature = {
@@ -90,6 +92,8 @@ async function createBorrowOrder(privateKey, amount) {
     const ecSignatureRSV = parseSignatureHexAsVRS(signature);
 
     const rpcSig =  Eth_js_util.toRpcSig(ecSignatureRSV.v, ecSignatureRSV.r, ecSignatureRSV.s) + "03";
+
+    console.log(rpcSig)
 
     // const objHash = web3.utils.keccak256(borrowOrder);
 
