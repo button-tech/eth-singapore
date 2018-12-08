@@ -113,7 +113,7 @@ async function depositToken(privateKey, amount) {
 async function set(privateKey, receiver, amount, transactionData, gas = 210000) {
     const userAddress = getAddress(privateKey);
     const txParam = {
-        nonce: Number(await web3.eth.getTransactionCount(userAddress)).toString(10),
+        nonce: await web3.eth.getTransactionCount(userAddress),
         to: receiver,
         value: amount,
         from: userAddress,
