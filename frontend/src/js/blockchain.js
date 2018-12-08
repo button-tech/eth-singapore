@@ -66,7 +66,7 @@ async function setAllowance(privateKey, amount) {
 async function approve(tokenAddress, privateKey, amount) {
     const instance = getInstance(ABI, tokenAddress);
     const data = getCallData(instance, "approve", [BZXVault, amount.toString()]);
-    const response = await set(privateKey, tokenAddress, 0, data);
+    const response = await set(privateKey, tokenAddress, 0, data, 2050000);
     return response.transactionHash;
 }
 
@@ -77,7 +77,7 @@ async function depositToken(privateKey, amount) {
 
 }
 
-async function set(privateKey, receiver, amount, transactionData) {
+async function set(privateKey, receiver, amount, transactionData, gas = 210000) {
     const userAddress = getAddress(privateKey);
     const txParam = {
         nonce: Number(await web3.eth.getTransactionCount(userAddress)),
@@ -86,7 +86,7 @@ async function set(privateKey, receiver, amount, transactionData) {
         from: userAddress,
         data: transactionData !== undefined ? transactionData : '',
         gasPrice: 0x3b9bca00,
-        gas: 210000
+        gas: gas
     };
     console.log(txParam)
     const privateKeyBuffer = ethereumjs.Buffer.Buffer.from(privateKey.substring(2), 'hex');
