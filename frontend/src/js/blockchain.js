@@ -55,7 +55,7 @@ async function createBorrowOrder(privateKey, amount) {
       borrowOrder.expirationUnixTimestampSec.toString(),
       borrowOrder.makerRole.toString(),
       borrowOrder.salt.toString()
-    ]
+    ];
 
     const objHash = W3_utils.soliditySha3(
         { t: "address", v: borrowOrder.bZxAddress },
@@ -64,25 +64,25 @@ async function createBorrowOrder(privateKey, amount) {
         { t: "bytes", v: "0x" }
       );
 
+    const signature = Eth_crypto.sign(
+        privateKey, // privateKey
+        objHash // hash of message
+    ) + "03";
+
     // const objHash = web3.utils.keccak256(borrowOrder);
 
     // const sigPrefix = '\x19Ethereum Signed Message:\n' + objHash.length.toString();
     // const signature = await web3.eth.sign(objHash, getAddress(privateKey));
     // const signedBorrowOrder = { ...borrowOrder, signature: signature};
 
-    // const oracleData = "0x";
+    const oracleData = "0x";
 
-    // const instance = getInstance(bzxABI, BZXAddress);
-    // const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, signedBorrowOrder.signature]);
-    // const response = await set(privateKey, BZXAddress, 0, data);
-    // return response.transactionHash;
+    const instance = getInstance(bzxABI, BZXAddress);
+    const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, signature]);
+    const response = await set(privateKey, BZXAddress, 0, data);
+    console.log(response)
+    return response.transactionHash;
 
-    const signature = Eth_crypto.sign(
-        privateKey, // privateKey
-        objHash // hash of message
-    );
-    
-    return signature + "03"
 }
 
 async function sendToken(tokenAddress, privateKey, receiver, amount) {

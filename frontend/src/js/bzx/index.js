@@ -66,7 +66,7 @@ async function sendTransaction() {
         // const deposit = await BL.depositToken(decryptedData["Ethereum"], loanTokenAmount);
 
         show("Approve token");
-        const approve = await BL.setAllowance(decryptedData["Ethereum"], loanTokenAmount);
+        // const approve = await BL.setAllowance(decryptedData["Ethereum"], loanTokenAmount);
 
         show("Create borrow order");
         const sendOrder = await BL.createBorrowOrder(decryptedData["Ethereum"], loanTokenAmount);
