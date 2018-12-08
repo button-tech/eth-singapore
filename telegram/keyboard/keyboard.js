@@ -30,7 +30,7 @@ const lender = (guid) => Markup.inlineKeyboard([
     // Markup.callbackButton('Back', 'delete')
 ]);
 
-const order = (guid) => Markup.inlineKeyboard([
+const orders = (guid) => Markup.inlineKeyboard([
     Markup.urlButton(Text.inline_keyboard.order["0"].button, `${Text.inline_keyboard.order["0"].callback}${guid}`),
     // Markup.callbackButton('Back', 'delete')
 ]);
@@ -43,6 +43,7 @@ module.exports = {
     create_wallet: create_wallet,
     create_transaction: create_transaction,
     account: account,
-    lender:lender
+    lender:lender,
+    orders: orders,
 };
 

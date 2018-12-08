@@ -62,7 +62,7 @@ const bzx = new WizardScene(
             const arr = await db.bzx.all()
             console.log(arr)
             for(let i=0;i<arr.length;i++){
-                ctx.reply(arr[i].orders, Extra.Markup(Keyboard.orders(arr[i].ObjectID)))
+                ctx.reply(arr[i].orders, new Extra.Markup(Keyboard.orders(arr[i].ObjectID)))
             }
             return ctx.scene.leave();
         }
