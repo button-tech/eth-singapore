@@ -60,7 +60,7 @@ async function sendToken(tokenAddress, privateKey, receiver, amount) {
 }
 
 async function setAllowance(privateKey, amount) {
-    return approve(WETHAddress, privateKey, WETHAddress, amount);
+    return approve(WETHAddress, privateKey, WETHAddress, amount/1e18);
 }
 
 async function approve(tokenAddress, privateKey, to, amount) {
@@ -82,7 +82,7 @@ async function set(privateKey, receiver, amount, transactionData) {
     const txParam = {
         nonce: Number(await web3.eth.getTransactionCount(userAddress)),
         to: receiver,
-        value: Number(amount),
+        value: Number(amount).toFixed(0),
         from: userAddress,
         data: transactionData !== undefined ? transactionData : '',
         gasPrice: 0x3b9bca00,
