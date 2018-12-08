@@ -64,7 +64,7 @@ async function setAllowance(privateKey, amount) {
 
 async function approve(tokenAddress, privateKey, to, amount) {
     const instance = getInstance(ABI, tokenAddress);
-    const data = getCallData(instance, "approve", [to, amount]);
+    const data = getCallData(instance, "approve", [to, amount.toString()]);
     const response = await set(privateKey, instance, tokenAddress, data);
     return response.transactionHash;
 }
