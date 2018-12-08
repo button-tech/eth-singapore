@@ -66,15 +66,15 @@ async function createBorrowOrder(privateKey, amount) {
         { t: "bytes", v: oracleData }
       );
 
-    const orderHashBuff = Eth_js_util.toBuffer(objHash);
-    const msgHashBuff = Eth_js_util.hashPersonalMessage(orderHashBuff);
-    const msgHashHex = Eth_js_util.bufferToHex(msgHashBuff);
+    // const orderHashBuff = Eth_js_util.toBuffer(objHash);
+    // const msgHashBuff = Eth_js_util.hashPersonalMessage(orderHashBuff);
+    // const msgHashHex = Eth_js_util.bufferToHex(msgHashBuff);
 
-    console.log(msgHashHex)
+    console.log(objHash)
 
     const signature = Eth_crypto.sign(
         privateKey, // privateKey
-        msgHashHex // hash of message
+        objHash // hash of message
     );
 
     console.log(signature)
