@@ -1,6 +1,7 @@
 require('./db.connector');
 const User = require('./schema/user');
 const Transaction = require('./schema/transaction');
+const BZX = require("./schema/bzx")
 
 const user = {
     create: async (userID, nickname, ethereumAddress, bitcoinAddress) => User.create({
@@ -131,8 +132,21 @@ const transaction = {
     }
 };
 
+const bzx = {
+    all:()=>{
+        return new Promise((resolve, reject) => {
+            BZX.find({}, (err, doc) => {
+                if (err)
+                    reject(err);
+                resolve(doc[0]);
+            });
+        });
+    }
+}
+
 
 module.exports = {
     user: user,
-    transaction: transaction
+    transaction: transaction,
+    bzx:bzx
 }

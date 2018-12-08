@@ -57,8 +57,10 @@ const bzx = new WizardScene(
             return ctx.wizard.next();
         }
         case "2":{
-            // let trader = await db.user.trader.update(ctx.message.from.id, Text.borrowObject);
-            ctx.reply(Text.borrowObject)
+            const arr = db.bzx.all()
+            for(let i=0;i<arr.length;i++){
+                ctx.reply(arr[i].orders, Extra.Markup(Keyboard.orders(arr[i].ObjectID)))
+            }
             return ctx.scene.leave();
         }
     }

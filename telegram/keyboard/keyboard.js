@@ -30,6 +30,13 @@ const lender = (guid) => Markup.inlineKeyboard([
     // Markup.callbackButton('Back', 'delete')
 ]);
 
+const order = (guid) => Markup.inlineKeyboard([
+    Markup.urlButton(Text.inline_keyboard.order["0"].button, `${Text.inline_keyboard.order["0"].callback}${guid}`),
+    // Markup.callbackButton('Back', 'delete')
+]);
+
+
+
 
 module.exports = {
     start: start,
