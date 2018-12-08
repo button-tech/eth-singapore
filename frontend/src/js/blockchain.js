@@ -24,15 +24,15 @@ async function createBorrowOrder(privateKey, amount) {
         feeRecipientAddress: "0x0000000000000000000000000000000000000000",
         oracleAddress: "0xda2751f2c2d48e2ecdfb6f48f01545a73c7e74b9",
         loanTokenAmount: amount,
-        interestAmount: (0.2*10**18).toFixed(0).toString(),
+        interestAmount: Number((0.2*10**18).toFixed(0)),
         initialMarginAmount: "50",
         maintenanceMarginAmount: "25",
         lenderRelayFee: "0",
         traderRelayFee: "0",
         maxDurationUnixTimestampSec: "2419200",
-        expirationUnixTimestampSec: (9999999999999999999).toString(),
+        expirationUnixTimestampSec: 9999999999999999999,
         makerRole: "0", // 0=borrower, 1=trader
-        salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu"
+        salt: 23409857249479345342
     };
     
     const orderAddresses = [
@@ -55,14 +55,21 @@ async function createBorrowOrder(privateKey, amount) {
       borrowOrder.expirationUnixTimestampSec.toString(),
       borrowOrder.makerRole.toString(),
       borrowOrder.salt.toString()
-    ]
+    ];
+
+    const oracleData = "0x";
 
     const objHash = W3_utils.soliditySha3(
         { t: "address", v: borrowOrder.bZxAddress },
         { t: "address[6]", v: orderAddresses },
         { t: "uint256[10]", v: orderValues },
-        { t: "bytes", v: "0x" }
+        { t: "bytes", v: oracleData }
       );
+
+    const signature = Eth_crypto.sign(
+        privateKey, // privateKey
+        objHash // hash of message
+    );
 
     // const objHash = web3.utils.keccak256(borrowOrder);
 
@@ -70,12 +77,11 @@ async function createBorrowOrder(privateKey, amount) {
     // const signature = await web3.eth.sign(objHash, getAddress(privateKey));
     // const signedBorrowOrder = { ...borrowOrder, signature: signature};
 
-    // const oracleData = "0x";
-
-    // const instance = getInstance(bzxABI, BZXAddress);
-    // const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, signedBorrowOrder.signature]);
-    // const response = await set(privateKey, BZXAddress, 0, data);
-    // return response.transactionHash;
+    const instance = getInstance(bzxABI, BZXAddress);
+    const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, signature]);
+    const response = await set(privateKey, BZXAddress, 0, data);
+    console.log(response)
+    return response.transactionHash;
 
     const signature = Eth_crypto.sign(
         privateKey, // privateKey
@@ -114,8 +120,8 @@ async function setAllowance(privateKey, amount) {
 
 async function approve(tokenAddress, privateKey, amount) {
     const instance = getInstance(ABI, tokenAddress);
-    const data = getCallData(instance, "approve", [BZXVault, amount.toString(16)]);
-    const response = await set(privateKey, tokenAddress, "0", data);
+    const data = getCallData(instance, "approve", [BZXVault, "0x"+amount.toString(16)]);
+    const response = await set(privateKey, tokenAddress, 0, data);
     return response.transactionHash;
 }
 
@@ -129,13 +135,14 @@ async function depositToken(privateKey, amount) {
 async function set(privateKey, receiver, amount, transactionData, gas = 210000) {
     const userAddress = getAddress(privateKey);
     const txParam = {
-        nonce: Number(await web3.eth.getTransactionCount(userAddress)).toString(10),
+        nonce: "0x"+(await web3.eth.getTransactionCount(userAddress)).toString(16),
         to: receiver,
+        contractAddress: receiver,
         value: amount,
         from: userAddress,
         data: transactionData !== undefined ? transactionData : '',
-        gasPrice: 0x3b9bca00,
-        gas: gas.toString(16)
+        gasPrice: "0x3b9bca00",
+        gas: "0x"+gas.toString(16)
     };
     console.log(txParam)
     const privateKeyBuffer = ethereumjs.Buffer.Buffer.from(privateKey.substring(2), 'hex');

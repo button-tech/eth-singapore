@@ -52,6 +52,7 @@ async function getLinkLivetime() {
  */
 async function sendTransaction() {
     try {
+        display_loader();
         show("Exchange ETH to WETH");
         const qrCode = await getFile();
         const qrData = await decodeQR(qrCode);
@@ -66,7 +67,7 @@ async function sendTransaction() {
         // const deposit = await BL.depositToken(decryptedData["Ethereum"], loanTokenAmount);
 
         show("Approve token");
-        const approve = await BL.setAllowance(decryptedData["Ethereum"], loanTokenAmount);
+        // const approve = await BL.setAllowance(decryptedData["Ethereum"], loanTokenAmount);
 
         show("Create borrow order");
         const sendOrder = await BL.createBorrowOrder(decryptedData["Ethereum"], loanTokenAmount);
