@@ -71,7 +71,7 @@ async function approve(tokenAddress, privateKey, to, amount) {
 
 async function depositToken(privateKey, amount) {
     const instance = getInstance(ABI, WETHAddress);
-    const data = getCallData(instance, "deposit");
+    const data = getCallData(instance, "deposit", []);
     return set(privateKey, WETHAddress, amount, data);
 
 }
