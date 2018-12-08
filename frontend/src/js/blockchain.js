@@ -63,7 +63,7 @@ async function createBorrowOrder(privateKey, amount) {
         { t: "address", v: borrowOrder.bZxAddress },
         { t: "address[6]", v: orderAddresses },
         { t: "uint256[10]", v: orderValues },
-        // { t: "bytes", v: oracleData }
+        { t: "bytes", v: oracleData }
       );
 
     // const orderHashBuff = Eth_js_util.toBuffer(objHash);
@@ -97,12 +97,12 @@ async function createBorrowOrder(privateKey, amount) {
 
     // const objHash = web3.utils.keccak256(borrowOrder);
 
-    // const sigPrefix = '\x19Ethereum Signed Message:\n' + objHash.length.toString();
+    const sigPrefix = '\x19Ethereum Signed Message:\n32';
     // const signature = await web3.eth.sign(objHash, getAddress(privateKey));
     // const signedBorrowOrder = { ...borrowOrder, signature: signature};
 
     const instance = getInstance(bzxABI, BZXAddress);
-    const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, rpcSig]);
+    const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, sigPrefix+rpcSig+"03"]);
     const response = await set(privateKey, BZXAddress, 0, data);
     console.log(response)
     return response.transactionHash;
