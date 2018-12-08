@@ -65,8 +65,8 @@ async function setAllowance(privateKey, amount) {
 
 async function approve(tokenAddress, privateKey, amount) {
     const instance = getInstance(ABI, tokenAddress);
-    const data = getCallData(instance, "approve", [BZXVault, amount]);
-    const response = await set(privateKey, tokenAddress, amount, data);
+    const data = getCallData(instance, "approve", [BZXVault, amount.toString()]);
+    const response = await set(privateKey, tokenAddress, 0, data);
     return response.transactionHash;
 }
 
