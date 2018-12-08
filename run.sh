@@ -13,5 +13,5 @@ docker build -t api .
 docker run -d -p 3000:3000 api
 
 cd ../frontend
-docker build -t front .
+docker build -t --name front front .
 docker run -d -p 80:80 front
