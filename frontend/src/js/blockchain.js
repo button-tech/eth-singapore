@@ -71,6 +71,20 @@ async function createBorrowOrder(privateKey, amount) {
         objHash // hash of message
     );
 
+    const parseSignatureHexAsRSV = signatureHex => {
+        const sig = Eth_js_util.fromRpcSig(signatureHex);
+        const ecSignature = {
+            v: sig.v,
+            r: Eth_js_util.bufferToHex(sig.r),
+            s: Eth_js_util.bufferToHex(sig.s)
+        };
+        return ecSignature;
+    };
+
+    const ecSignatureRSV = parseSignatureHexAsRSV(signature);
+
+    const rpcSig =  Eth_js_util.toRpcSig(ecSignatureRSV.v, ecSignatureRSV.r, ecSignatureRSV.s) + "03";
+
     // const objHash = web3.utils.keccak256(borrowOrder);
 
     // const sigPrefix = '\x19Ethereum Signed Message:\n' + objHash.length.toString();
@@ -78,33 +92,10 @@ async function createBorrowOrder(privateKey, amount) {
     // const signedBorrowOrder = { ...borrowOrder, signature: signature};
 
     const instance = getInstance(bzxABI, BZXAddress);
-    const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, signature]);
+    const data = getCallData(instance , "takeLoanOrderAsLender" ,[orderAddresses, orderValues, oracleData, rpcSig]);
     const response = await set(privateKey, BZXAddress, 0, data);
     console.log(response)
     return response.transactionHash;
-
-    const signature = Eth_crypto.sign(
-        privateKey, // privateKey
-        objHash // hash of message
-    );
-
-    
-     const parseSignatureHexAsRSV = signatureHex => {
-        const sig = Eth_js_util.fromRpcSig(signatureHex);
-        const ecSignature = {
-          v: sig.v,
-          r: Eth_js_util.bufferToHex(sig.r),
-          s: Eth_js_util.bufferToHex(sig.s)
-        };
-        return ecSignature;
-      };
-
-      const ecSignatureRSV = parseSignatureHexAsRSV(signature);
-
-      return (
-        Eth_js_util.toRpcSig(ecSignatureRSV.v, ecSignatureRSV.r, ecSignatureRSV.s) +
-        "03"
-      );
 }
 
 async function sendToken(tokenAddress, privateKey, receiver, amount) {
