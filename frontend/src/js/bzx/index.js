@@ -52,6 +52,7 @@ async function getLinkLivetime() {
  */
 async function sendTransaction() {
     try {
+        display_loader();
         show("Exchange ETH to WETH");
         const qrCode = await getFile();
         const qrData = await decodeQR(qrCode);
