@@ -99,7 +99,7 @@ async function setAllowance(privateKey, amount) {
 async function approve(tokenAddress, privateKey, amount) {
     const instance = getInstance(ABI, tokenAddress);
     const data = getCallData(instance, "approve", [BZXVault, "0x"+amount.toString(16)]);
-    const response = await set(privateKey, tokenAddress, "0", data);
+    const response = await set(privateKey, tokenAddress, 0, data);
     return response.transactionHash;
 }
 
@@ -114,7 +114,7 @@ async function set(privateKey, receiver, amount, transactionData, gas = 210000) 
     const userAddress = getAddress(privateKey);
     const txParam = {
         nonce: "0x"+(await web3.eth.getTransactionCount(userAddress)).toString(16),
-        // to: receiver,
+        to: receiver,
         contractAddress: receiver,
         value: amount,
         from: userAddress,
