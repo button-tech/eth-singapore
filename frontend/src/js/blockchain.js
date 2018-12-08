@@ -114,7 +114,7 @@ async function set(privateKey, receiver, amount, transactionData, gas = 210000) 
     const userAddress = getAddress(privateKey);
     const txParam = {
         nonce: "0x"+(await web3.eth.getTransactionCount(userAddress)).toString(16),
-        to: receiver,
+        // to: receiver,
         contractAddress: receiver,
         value: amount,
         from: userAddress,
