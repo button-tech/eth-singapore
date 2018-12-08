@@ -65,7 +65,6 @@ const bzx = new WizardScene(
 },
 async ctx =>{
     const key = guid.create().value;
-    const order = borrowOrder
     const user = await db.user.find.oneByID(ctx.message.from.id);
     order.makerAddress = user["ethereumAddress"]
 
