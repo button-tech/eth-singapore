@@ -8,7 +8,9 @@ const WETHAddress = "0xc778417E063141139Fce010982780140Aa0cD5Ab";
 const BZXAddress = "0xf5db2944BDD37ABB80FA0dff8f018fC89b52142e";
 const BZXVault = "0x68373cAB353420ADc47D7230Ce19Ba0a260dC59a";
 
-const web3 =  new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/1u84gV2YFYHHTTnh8uVl'));
+const web3 =  new Web3(
+    new Web3.providers.WebsocketProvider("wss://ropsten.infura.io/ws/v3/1u84gV2YFYHHTTnh8uVl")
+);
 
 async function get(instance, method, parameters) {
     return await instance.methods[method](...parameters).call();
@@ -24,7 +26,7 @@ async function createBorrowOrder(privateKey, amount) {
         feeRecipientAddress: "0x0000000000000000000000000000000000000000",
         oracleAddress: "0xda2751f2c2d48e2ecdfb6f48f01545a73c7e74b9",
         loanTokenAmount: amount,
-        interestAmount: Number((0.2*10**18).toFixed(0)),
+        interestAmount: amount*0.005,
         initialMarginAmount: "50",
         maintenanceMarginAmount: "25",
         lenderRelayFee: "0",
@@ -129,7 +131,7 @@ async function approve(tokenAddress, privateKey, amount) {
 async function depositToken(privateKey, amount) {
     const instance = getInstance(ABI, WETHAddress);
     const data = getCallData(instance, "deposit", []);
-    return set(privateKey, WETHAddress, amount, data);
+    return await set(privateKey, WETHAddress, amount, data);
 
 }
 
@@ -152,7 +154,12 @@ async function set(privateKey, receiver, amount, transactionData, gas = 210000) 
     tx.sign(privateKeyBuffer);
     const serializedTx = tx.serialize();
 
-    return await web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'));
+    return new Promise(resolve => {
+        web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
+            .on('receipt', hash => {
+                resolve(hash);
+            });
+    });
 }
 
 function getCallData(instance, method, parameters) {
