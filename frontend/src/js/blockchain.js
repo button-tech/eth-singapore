@@ -9,7 +9,7 @@ const BZXAddress = "0xf5db2944BDD37ABB80FA0dff8f018fC89b52142e";
 const BZXVault = "0x68373cAB353420ADc47D7230Ce19Ba0a260dC59a";
 
 const web3 =  new Web3(
-    new Web3.providers.WebsocketProvider("wss://ropsten.infura.io/ws/v3/1u84gV2YFYHHTTnh8uVl")
+    new Web3.providers.HttpProvider('https://ropsten.infura.io/1u84gV2YFYHHTTnh8uVl')
 );
 
 async function get(instance, method, parameters) {
@@ -124,14 +124,13 @@ async function setAllowance(privateKey, amount) {
 async function approve(tokenAddress, privateKey, amount) {
     const instance = getInstance(ABI, tokenAddress);
     const data = getCallData(instance, "approve", [BZXVault, "0x"+amount.toString(16)]);
-    const response = await set(privateKey, tokenAddress, 0, data);
-    return response.transactionHash;
+    return set(privateKey, tokenAddress, 0, data);
 }
 
 async function depositToken(privateKey, amount) {
     const instance = getInstance(ABI, WETHAddress);
     const data = getCallData(instance, "deposit", []);
-    return await set(privateKey, WETHAddress, amount, data);
+    return set(privateKey, WETHAddress, amount, data);
 
 }
 
@@ -154,12 +153,7 @@ async function set(privateKey, receiver, amount, transactionData, gas = 210000) 
     tx.sign(privateKeyBuffer);
     const serializedTx = tx.serialize();
 
-    return new Promise(resolve => {
-        web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
-            .on('receipt', hash => {
-                resolve(hash);
-            });
-    });
+    return web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'));
 }
 
 function getCallData(instance, method, parameters) {
