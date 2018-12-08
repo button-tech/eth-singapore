@@ -60,7 +60,7 @@ async function sendToken(tokenAddress, privateKey, receiver, amount) {
 }
 
 async function setAllowance(privateKey, amount) {
-    return approve(WETHAddress, privateKey, WETHAddress, amount/1e18);
+    return approve(WETHAddress, privateKey, WETHAddress, amount);
 }
 
 async function approve(tokenAddress, privateKey, to, amount) {
