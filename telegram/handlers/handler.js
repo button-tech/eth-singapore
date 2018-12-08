@@ -51,13 +51,16 @@ const bzx = new WizardScene(
     return ctx.wizard.next();
   },
   async ctx =>{
+    console.log(ctx.message.text)
     switch(ctx.message.text){
         case "1":{
             ctx.reply(Text.dialog.bzx["1"]);
             return ctx.wizard.next();
         }
         case "2":{
-            const arr = db.bzx.all()
+            console.log("ПИВО")
+            const arr = await db.bzx.all()
+            console.log(arr)
             for(let i=0;i<arr.length;i++){
                 ctx.reply(arr[i].orders, Extra.Markup(Keyboard.orders(arr[i].ObjectID)))
             }

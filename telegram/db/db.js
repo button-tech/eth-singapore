@@ -138,7 +138,7 @@ const bzx = {
             BZX.find({}, (err, doc) => {
                 if (err)
                     reject(err);
-                resolve(doc[0]);
+                resolve(doc);
             });
         });
     }
