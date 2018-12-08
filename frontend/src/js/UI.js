@@ -43,6 +43,7 @@ function addError(errorText) {
             </div>
         </div>
     </div>`;
+    close_loader();
 }
 
 function addHint(errorText) {
