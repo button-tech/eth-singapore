@@ -1,6 +1,7 @@
 require('./db.connector');
 const User = require('./schema/user');
 const Transaction = require('./schema/transaction');
+const Bzx = require('./schema/bzx');
 
 const user = {
     create: async (userID, nickname, ethereumAddress, bitcoinAddress) => User.create({
@@ -84,8 +85,34 @@ const transaction = {
     }
 };
 
+const bzx = {
+    create: async (object) => Bzx.create({
+        orders: object
+    }, (err, doc) => {}),
+    find: {
+        all: () => {
+            return new Promise((resolve, reject) => {
+                Bzx.find({}, (err, doc) => {
+                    if (err)
+                        reject(err);
+                    resolve(doc[0]);
+                });
+            });
+        },
+        oneByID: (id) => {
+            return new Promise((resolve, reject) => {
+                Bzx.find({_id: id}, (err, doc) => {
+                    if (err)
+                        reject(err);
+                    resolve(doc[0]);
+                });
+            });
+        },
+    }
+};
 
 module.exports = {
     user: user,
-    transaction: transaction
+    transaction: transaction,
+    bzx: bzx
 }
