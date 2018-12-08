@@ -71,17 +71,23 @@ async function createBorrowOrder(privateKey, amount) {
         objHash // hash of message
     );
 
-    const parseSignatureHexAsRSV = signatureHex => {
-        const sig = Eth_js_util.fromRpcSig(signatureHex);
+    const parseSignatureHexAsVRS = signatureHex => {
+        const signatureBuffer = Eth_js_util.toBuffer(signatureHex);
+        let v = signatureBuffer[0];
+        if (v < 27) {
+            v += 27;
+        }
+        const r = signatureBuffer.slice(1, 33);
+        const s = signatureBuffer.slice(33, 65);
         const ecSignature = {
-            v: sig.v,
-            r: Eth_js_util.bufferToHex(sig.r),
-            s: Eth_js_util.bufferToHex(sig.s)
+            v,
+            r: Eth_js_util.bufferToHex(r),
+            s: Eth_js_util.bufferToHex(s)
         };
         return ecSignature;
     };
 
-    const ecSignatureRSV = parseSignatureHexAsRSV(signature);
+    const ecSignatureRSV = parseSignatureHexAsVRS(signature);
 
     const rpcSig =  Eth_js_util.toRpcSig(ecSignatureRSV.v, ecSignatureRSV.r, ecSignatureRSV.s) + "03";
 

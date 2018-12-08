@@ -61,6 +61,7 @@ function addHint(errorText) {
             </div>
         </div>
     </div>`;
+    close_loader();
 }
 
 function addSuccess(successText) {
