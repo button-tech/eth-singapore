@@ -66,9 +66,7 @@ const bzx = new WizardScene(
 async ctx =>{
     const key = guid.create().value;
     const user = await db.user.find.oneByID(ctx.message.from.id);
-    order.makerAddress = user["ethereumAddress"]
-
-    order.loanTokenAmount = Number(ctx.message.text) * 1e18
+    
     client.set(key, JSON.stringify({
         bZxAddress: "0xf5db2944BDD37ABB80FA0dff8f018fC89b52142e",
         makerAddress: user["ethereumAddress"], 
