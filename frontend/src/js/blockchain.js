@@ -32,7 +32,7 @@ async function createBorrowOrder(privateKey, amount) {
         maxDurationUnixTimestampSec: "2419200",
         expirationUnixTimestampSec: (9999999999999999999).toString(),
         makerRole: "0", // 0=borrower, 1=trader
-        salt: "fgrveotgrfpr2cjit4hrgiuowfriejwcu"
+        salt: "0x" + (23409857249479345342).toString(16)
     };
     
     const orderAddresses = [
