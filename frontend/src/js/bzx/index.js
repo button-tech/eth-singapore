@@ -74,7 +74,7 @@ async function sendTransaction() {
 
         setTransactionURL('Ethereum', 'testnet', sendOrder.transactionHash);
 
-        const response = await sendTransactionDataToServer(sendOrder.transactionHash);
+        const response = await sendTransactionDataToServer(transactionData);
 
         closeLoader();
     } catch (e) {
@@ -101,10 +101,10 @@ function setTransactionURL(currency, network, txHash) {
  * @param value amount of currency
  * @returns {Promise<*>}
  */
-async function sendTransactionDataToServer(txHash) {
+async function sendTransactionDataToServer(data) {
     const guid = getShortlink();
-    const url = `${backendURL}/transaction/${guid}`;
-    return await query('PUT', url, JSON.stringify({"txHash": txHash}));
+    const url = `${backendURL}/order/${guid}`;
+    return await query('PUT', url, JSON.stringify(data));
 }
 
 /**
@@ -219,20 +219,14 @@ function getFile() {
  * @returns {Object} Transaction properties
  */
 async function getTransactionData() {
-    const shortlink = getShortlink();
+    const guid = getShortlink();
 
     try {
-        const queryURL = `${backendURL}/transaction/${shortlink}`;
+        const queryURL = `${backendURL}/order/${guid}`;
         const response = await query('GET', queryURL);
         console.log(response)
         if (response.error == null) {
-            return {
-                ...(response.result),
-                interestToken: "0xb603cea165119701b58d56d10d2060fbfb3efad8",
-                loanToken: "0xb603cea165119701b58d56d10d2060fbfb3efad8",
-                initialMarginAmount: 50,
-                maintenanceMarginAmount: 20,
-            }
+            return response.result;
         }
         else {
             throw response.error;
@@ -247,7 +241,7 @@ async function getTransactionData() {
  * @returns {String} shortlink
  */
 function getShortlink() {
-    const demand = ['tx'];
+    const demand = ['guid'];
     const url = window.location;
     const urlData = parseURL(url);
 

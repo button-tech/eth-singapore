@@ -51,7 +51,7 @@
     "order":{
       "0":{
         "button":"🖋 Order",
-        "callback":"http:/3.80.224.192:80/create/accept/?guid="
+        "callback":"http://3.80.224.192/create/accept/?guid="
       }
     }
   },
