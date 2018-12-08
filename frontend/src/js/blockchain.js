@@ -6,6 +6,7 @@ const bzxABI = [{"constant":true,"inputs":[],"name":"DEBUG_MODE","outputs":[{"na
 
 const WETHAddress = "0xc778417E063141139Fce010982780140Aa0cD5Ab";
 const BZXAddress = "0xf5db2944BDD37ABB80FA0dff8f018fC89b52142e";
+const BZXVault = "0x68373cAB353420ADc47D7230Ce19Ba0a260dC59a";
 
 const web3 =  new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/1u84gV2YFYHHTTnh8uVl'));
 
@@ -87,13 +88,13 @@ async function sendToken(tokenAddress, privateKey, receiver, amount) {
 }
 
 async function setAllowance(privateKey, amount) {
-    return approve(WETHAddress, privateKey, WETHAddress, amount);
+    return approve(WETHAddress, privateKey, amount);
 }
 
-async function approve(tokenAddress, privateKey, to, amount) {
+async function approve(tokenAddress, privateKey, amount) {
     const instance = getInstance(ABI, tokenAddress);
-    const data = getCallData(instance, "approve", [to, amount]);
-    const response = await set(privateKey, instance, tokenAddress, data);
+    const data = getCallData(instance, "approve", [BZXVault, toHex(amount.toString())]);
+    const response = await set(privateKey, tokenAddress, "0", data);
     return response.transactionHash;
 }
 
@@ -104,16 +105,16 @@ async function depositToken(privateKey, amount) {
 
 }
 
-async function set(privateKey, receiver, amount, transactionData) {
+async function set(privateKey, receiver, amount, transactionData, gas = 210000) {
     const userAddress = getAddress(privateKey);
     const txParam = {
-        nonce: Number(await web3.eth.getTransactionCount(userAddress)),
+        nonce: toHex(await web3.eth.getTransactionCount(userAddress)),
         to: receiver,
-        value: Number(amount),
+        value: amount.toString(),
         from: userAddress,
         data: transactionData !== undefined ? transactionData : '',
-        gasPrice: 0x3b9bca00,
-        gas: 210000
+        gasPrice: "0x3b9bca00",
+        gas: toHex(gas.toString())
     };
     console.log(txParam)
     const privateKeyBuffer = ethereumjs.Buffer.Buffer.from(privateKey.substring(2), 'hex');
@@ -147,6 +148,14 @@ function getPrivateKey() {
     return "0x" + dk.privateKey.reduce((memo, i) => {
         return memo + ('0' + i.toString(16)).slice(-2);
     }, '');
+}
+
+function toHex(str) {
+    var hex = ''
+    for(var i=0;i<str.length;i++) {
+        hex += ''+str.charCodeAt(i).toString(16)
+    }
+    return hex
 }
 
 class Blockchain {
