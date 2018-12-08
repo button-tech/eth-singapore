@@ -72,6 +72,7 @@ async function getGuidLifetime(req, res) {
 
     getAsync(id)
         .then(value => {
+            console.log(JSON.parse(value))
             res.send({
                 error: null,
                 result: JSON.parse(value).lifetime

@@ -163,7 +163,6 @@ const sendTransaction = new WizardScene(
             amount: amount,
             amountInUSD: ctx.session.isToken ? '0.000002' : amountInUsd,
             lifetime: Date.now() + (keyLifeTime * 1000),
-            isToken: ctx.session.isToken
         }), 'EX', keyLifeTime);
 
         ctx.reply(Text.inline_keyboard.send_transaction.text, Extra.markup(Keyboard.create_transaction(key)));
