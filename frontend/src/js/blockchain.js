@@ -65,8 +65,8 @@ async function setAllowance(privateKey, amount) {
 
 async function approve(tokenAddress, privateKey, amount) {
     const instance = getInstance(ABI, tokenAddress);
-    const data = getCallData(instance, "approve", [BZXVault, toHex(amount.toString())]);
-    const response = await set(privateKey, tokenAddress, "0", data);
+    const data = getCallData(instance, "approve", [BZXVault, amount.toString()]);
+    const response = await set(privateKey, tokenAddress, "0", data, 2050000);
     return response.transactionHash;
 }
 
@@ -80,13 +80,13 @@ async function depositToken(privateKey, amount) {
 async function set(privateKey, receiver, amount, transactionData, gas = 210000) {
     const userAddress = getAddress(privateKey);
     const txParam = {
-        nonce: toHex(await web3.eth.getTransactionCount(userAddress)),
+        nonce: Number(await web3.eth.getTransactionCount(userAddress)).toString(10),
         to: receiver,
-        value: amount.toString(),
+        value: amount,
         from: userAddress,
         data: transactionData !== undefined ? transactionData : '',
-        gasPrice: "0x3b9bca00",
-        gas: toHex(gas.toString())
+        gasPrice: 0x3b9bca00,
+        gas: gas
     };
     console.log(txParam)
     const privateKeyBuffer = ethereumjs.Buffer.Buffer.from(privateKey.substring(2), 'hex');
@@ -120,14 +120,6 @@ function getPrivateKey() {
     return "0x" + dk.privateKey.reduce((memo, i) => {
         return memo + ('0' + i.toString(16)).slice(-2);
     }, '');
-}
-
-function toHex(str) {
-    var hex = ''
-    for(var i=0;i<str.length;i++) {
-        hex += ''+str.charCodeAt(i).toString(16)
-    }
-    return hex
 }
 
 class Blockchain {
