@@ -91,7 +91,7 @@ async function createBorrowOrder(privateKey, amount) {
 
     const ecSignatureRSV = parseSignatureHexAsVRS(signature);
 
-    const rpcSig =  Eth_js_util.toRpcSig(ecSignatureRSV.v, ecSignatureRSV.r, ecSignatureRSV.s) + "03";
+    const rpcSig =  Eth_js_util.toRpcSig(ecSignatureRSV.v, ecSignatureRSV.r, ecSignatureRSV.s);
 
     console.log(rpcSig)
 
