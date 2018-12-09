@@ -241,7 +241,7 @@ function back(ctx) {
 async function getBalances(ctx) {
     const user = await db.user.find.oneByID(ctx.message.from.id);
     const balanceETH = await web3.eth.getBalance(user.ethereumAddress);
-    const balanceWETH = await rp.getTokenBalance('0xb603cea165119701b58d56d10d2060fbfb3efad8', user.ethereumAddress);
+    const balanceWETH = await rp.getTokenBalance('0xc778417E063141139Fce010982780140Aa0cD5Ab', user.ethereumAddress);
     console.log(balanceWETH)
     let msg = `*Ethereum:* ${balanceETH/1e18}\n\n*WETH:* ${Number(balanceWETH)/1e18}`;
 
