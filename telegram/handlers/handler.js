@@ -142,7 +142,10 @@ const borrower = new WizardScene("borrower",ctx=>{
 async function Loaner(ctx){
     const arr = await db.bzx.all()
             for(let i=0;i<arr.length;i++){
-                ctx.reply(JSON.stringify(arr[i].orders), Extra.markup(Keyboard.orders(arr[i]["_id"])))
+                loanAmount = Number(arr[i].orders.loanTokenAmount) / 1e18
+                interestAmount = Number(arr[i].orders.interestAmount) / 1e18
+                const resp = " 🌐 Maker address : " + arr[i].orders.makerAddress +"\n 💎 Loan amount : " + String(loanAmount)+" WETH" +  "\n 🎊 Interest amount : " +  interestAmount + " WETH" + "\n ⏳ Max time : " + arr[i].orders.maxDurationUnixTimestampSec  
+                ctx.reply(resp, Extra.markup(Keyboard.orders(arr[i]["_id"])))
         }
         return
 }

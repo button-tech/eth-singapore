@@ -50,7 +50,7 @@
     },
     "order":{
       "0":{
-        "button":"🖋 Order",
+        "button":" 💫 Loarn",
         "callback":"http://3.80.224.192/order/accept/?guid="
       }
     }

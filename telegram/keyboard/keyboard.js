@@ -15,7 +15,7 @@ const account = [
 ];
 
 const ordersInline = Markup.inlineKeyboard([
-       Markup.callbackButton("Borrower💰","borrower"),
+       Markup.callbackButton("Borrower 💰","borrower"),
        Markup.callbackButton("Loaner 💰","loaner"),
 ]).extra()
 
