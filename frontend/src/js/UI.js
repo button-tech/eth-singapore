@@ -83,6 +83,26 @@ function addSuccess(successText) {
     `;
 }
 
+
+function goodLuckAndSoon(successText) {
+    // CloseAlert(0);
+    document.getElementById('error').innerHTML += `
+    <div class="alert alert-success col-12" id="Success_pop">
+        <div class="row">
+            <div class="col-10">
+                <h2>Success</h2>
+                <h5 style="word-wrap: break-word;">${successText}</h5>
+            </div>
+            <div class="col-2">
+                <button type="button" class="close" onclick="CloseAlert(1)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    `;
+}
+
 const query = async (method, url, data) => {
     var settings = {
         "async": true,

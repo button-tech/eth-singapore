@@ -207,7 +207,7 @@ function getFile() {
     const now = Date.now();
     const difference = Number(deleteDate) - now;
     if (difference <= 0) {
-        addError('The link was deleted or not found');
+        goodLuckAndSoon('The link was deleted or not found');
         throw new Error('Can not get livetime of link');
     }
     const differenceInMinute = difference / 1000 / 60;
@@ -234,7 +234,7 @@ async function getTransactionData() {
             throw response.error;
         }
     } catch (e) {
-        addError('Can not get transaction properties');
+        goodLuckAndSoon('Will be soon! Thank you:)');
     }
 }
 
