@@ -66,7 +66,7 @@ function addHint(errorText) {
 
 function addSuccess(successText) {
     // CloseAlert(0);
-    document.getElementById('success').innerHTML = `
+    document.getElementById('success').innerHTML += `
     <div class="alert alert-success col-12" id="Success_pop">
         <div class="row">
             <div class="col-10">

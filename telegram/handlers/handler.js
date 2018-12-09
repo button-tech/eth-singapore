@@ -13,7 +13,7 @@ const token = require('./../tokens/tokens');
 require('dotenv').config({path: "./../../.env"});
 
 
-const web3 = new Web3(new Web3.providers.HttpProvider(`https://rinkeby.infura.io/${process.env.INFURA_TOKEN}`));
+const web3 = new Web3(new Web3.providers.HttpProvider(`https://ropsten.infura.io/${process.env.INFURA_TOKEN}`));
 
 const client = redis.createClient({
         host: process.env.REDIS_HOST || '127.0.0.1'
